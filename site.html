@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сравнение автомобилей</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #2c3e50;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: #2c3e50;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+        }
+
+        .header-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-subtitle {
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Table Styles */
+        .table-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+            position: relative;
+        }
+
+        .table-header {
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+        }
+
+        th {
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        /* Подсветка всей строки при наведении */
+        tbody tr:hover {
+            background-color: #e6e9ed;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Подсветка ячейки с характеристикой при наведении на строку */
+        tbody tr:hover td:first-child {
+            background-color: #d6d9de;
+        }
+
+        td {
+            padding: 18px 15px;
+            text-align: center;
+            border-right: 1px solid #ecf0f1;
+            transition: all 0.3s ease;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: left;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /* Brand-specific styling */
+        .brand-lamborghini {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .brand-voyah {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .brand-jaguar {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        mark {
+            background: #2c3e50;
+            padding: 4px 8px;
+            font-weight: 600;
+            color: white;
+        }
+
+        tfoot {
+            background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
+        }
+
+        tfoot td {
+            font-style: italic;
+            color: #7f8c8d;
+            text-align: center;
+            padding: 15px;
+            font-weight: 500;
+        }
+
+        /* Details Sections */
+        .details-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        details {
+            background: white;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #e1e8ed;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        details:hover {
+            border-color: #3498db;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.15);
+            transform: translateY(-3px);
+        }
+
+        details[open] {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        }
+
+        summary {
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            margin: 0;
+            background: #2c3e50;
+            transition: all 0.3s ease;
+            list-style: none;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary:after {
+            content: '+';
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            margin-left: 10px;
+        }
+
+        details[open] summary:after {
+            content: '−';
+            transform: rotate(0deg);
+        }
+
+        summary:hover {
+            background: #2c3e50;
+        }
+
+        .details-content {
+            padding: 15px;
+            color: #555;
+            line-height: 1.7;
+            border-top: 1px solid #e1e8ed;
+        }
+
+        .details-content p {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .details-content mark {
+            margin: 0 2px;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .details-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .table-header {
+                font-size: 1.4rem;
+                padding: 12px;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+            }
+            
+            .table-section, .details-section {
+                padding: 20px;
+            }
+            
+            .table-header {
+                font-size: 1.2rem;
+                padding: 10px;
+            }
+            
+            th, td {
+                padding: 10px 5px;
+                font-size: 0.8rem;
+            }
+            
+            summary {
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+            
+            .details-content {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="header-title">Lamborghini - Voyah - Jaguar</h1>
+            <p class="header-subtitle">Таблица анализа характеристик ведущих автомобильных брендов</p>
+        </header>
+
+        <!-- Comparison Table -->
+        <section class="table-section">
+            <div class="table-header">Сравнительная таблица Lamborghini, Voyah и Jaguar</div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Характеристика</th>
+                        <th>Lamborghini</th>
+                        <th>Voyah</th>
+                        <th>Jaguar</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr>
+                        <td>Самая дорогая модель</td>
+                        <td class="brand-lamborghini">Lamborghini Revuelto (≈$600,000)</td>
+                        <td class="brand-voyah">Voyah Dream (≈$70,000)</td>
+                        <td class="brand-jaguar">Jaguar F-Type R (≈$120,000)</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Самая дешёвая модель</td>
+                        <td class="brand-lamborghini">Lamborghini Huracán (≈$200,000)</td>
+                        <td class="brand-voyah">Voyah Free (≈$45,000)</td>
+                        <td class="brand-jaguar">Jaguar XE (≈$40,000)</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Двигатель</td>
+                        <td>6.5L V12, 825 л.с.</td>
+                        <td>Электрический, 490 кВт</td>
+                        <td>5.0L V8, 575 л.с.</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Расход топлива</td>
+                        <td>22.2 л/100км</td>
+                        <td>Электрический (0 л/100км)</td>
+                        <td>11.9 л/100км</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Разгон 0-100 км/ч</td>
+                        <td>2.5 сек</td>
+                        <td>4.5 сек</td>
+                        <td>3.7 сек</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Экологические сертификаты</td>
+                        <td>Euro 6</td>
+                        <td>Zero Emission</td>
+                        <td>Euro 6d</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Гарантийный срок</td>
+                        <td>3 года</td>
+                        <td>5 лет</td>
+                        <td>3 года</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Максимальная скорость</td>
+                        <td>350 км/ч</td>
+                        <td>200 км/ч</td>
+                        <td>300 км/ч</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Тип КПП</td>
+                        <td>Автоматическая</td>
+                        <td>Автоматическая (электрическая)</td>
+                        <td>Автоматическая</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Количество передач</td>
+                        <td>8-ступенчатая</td>
+                        <td>1-ступенчатая (редуктор)</td>
+                        <td>8-ступенчатая</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="details-section">
+            <div class="details-grid">
+                <details>
+                    <summary>Подробнее о Lamborghini</summary>
+                    <div class="details-content">
+                        <p><mark>Lamborghini</mark> - итальянский производитель спортивных автомобилей, основанный в 1963 году. Специализируется на производстве высокопроизводительных суперкаров с уникальным дизайном и передовыми технологиями.</p>
+                        <p>Автомобили Lamborghini известны своим агрессивным дизайном, невероятной мощностью и эксклюзивностью. Каждая модель представляет собой сочетание инновационных технологий и итальянского стиля.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Подробнее о Voyah</summary>
+                    <div class="details-content">
+                        <p><mark>Voyah</mark> - премиальный суббренд китайской компании Dongfeng Motor, специализирующийся на производстве электромобилей и гибридных автомобилей. Бренд был запущен в 2020 году.</p>
+                        <p>Voyah представляет собой сочетание роскоши и экологичности, предлагая современные технологии, просторные салоны и передовые решения в области электромобильности.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Подробнее о Jaguar</summary>
+                    <div class="details-content">
+                        <p><mark>Jaguar</mark> - британский производитель роскошных автомобилей, основанный в 1922 году. Известен своими элегантными спортивными седанами и купе.</p>
+                        <p>Бренд сочетает в себе британский стиль и высокую производительность, предлагая изысканный дизайн, роскошные интерьеры и динамичные характеристики.</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Ключевые выводы</summary>
+                    <div class="details-content">
+                        <p><mark>Lamborghini</mark> - лидер по производительности и скорости, но самый дорогой в содержании. Идеальный выбор для ценителей эксклюзивности и максимальной производительности.</p>
+                        <p><mark>Voyah</mark> - наиболее экологичный и экономичный вариант с лучшей гарантией. Прекрасный выбор для современных потребителей, ценящих технологии и экологичность.</p>
+                        <p><mark>Jaguar</mark> - сбалансированный выбор между производительностью, комфортом и ценой. Сочетает в себе британскую элегантность и спортивный характер.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Сравнение автомобилей премиум-класса | Findrik Studio</p>
+        </footer>
+    </div>
+</body>
+</html>
